@@ -1,0 +1,14 @@
+:host {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.example-form {
+  min-width: 550px;
+  max-width: 980px;
+}
+
+.example-full-width {
+  width: 100%;
+}
