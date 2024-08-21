@@ -1,11 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { mockProducts } from '@ecommerce/data-access';
+import { Product, ProductSearchService } from '@ecommerce/data-access';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  Observable,
+  of,
+  switchMap,
+} from 'rxjs';
 
 @Component({
   selector: 'lib-product-search',
@@ -20,7 +29,23 @@ import { mockProducts } from '@ecommerce/data-access';
   templateUrl: './product-search.component.html',
   styleUrl: './product-search.component.scss',
 })
-export class ProductSearchComponent {
-  control = new FormControl('');
-  products = mockProducts;
+export class ProductSearchComponent implements OnInit {
+  control = new FormControl('', { nonNullable: true });
+  products$: Observable<Product[]> = of([]);
+  private productService = inject(ProductSearchService);
+
+  ngOnInit() {
+    this.products$ = this.control.valueChanges.pipe(
+      filter((text) => text?.length > 1),
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap((text) => {
+        return this.productService.searchByName(text).pipe(
+          catchError(() => {
+            return of([]);
+          })
+        );
+      })
+    );
+  }
 }

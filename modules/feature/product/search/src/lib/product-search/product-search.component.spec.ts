@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductSearchComponent } from './product-search.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('ProductSearchComponent', () => {
   let component: ProductSearchComponent;
@@ -9,6 +11,7 @@ describe('ProductSearchComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ProductSearchComponent, NoopAnimationsModule],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProductSearchComponent);

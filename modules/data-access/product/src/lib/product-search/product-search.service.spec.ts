@@ -28,7 +28,7 @@ describe('ProductSearchService', () => {
   it('should return products correctly', () => {
     // Arrange
     const mockName = 'notebook';
-    const url = `${service.apiUrl}/products?name=${mockName}`;
+    const url = `${service.apiUrl}products?name=${mockName}`;
     let result: Product[] = [];
 
     // Act

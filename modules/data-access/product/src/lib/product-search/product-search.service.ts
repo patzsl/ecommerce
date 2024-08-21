@@ -12,7 +12,7 @@ export class ProductSearchService {
   constructor(private http: HttpClient) {}
 
   searchByName(name: string): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/products`, {
+    return this.http.get<Product[]>(`${this.apiUrl}products`, {
       params: { name },
     });
   }
