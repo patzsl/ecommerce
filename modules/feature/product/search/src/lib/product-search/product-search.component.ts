@@ -36,7 +36,7 @@ export class ProductSearchComponent implements OnInit {
 
   ngOnInit() {
     this.products$ = this.control.valueChanges.pipe(
-      filter((text) => text?.length > 1),
+      filter((text) => text?.length > 0),
       debounceTime(500),
       distinctUntilChanged(),
       switchMap((text) => {
